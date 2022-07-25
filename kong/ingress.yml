@@ -1,0 +1,38 @@
+# chrono @ 2022-07
+
+# kubectl create ing kong-ing --rule="kong.test/=ngx-svc:80" $out
+# kubectl create ing kong-ing --rule="kong.test/=ngx-svc:80" --class=kong-ink $out
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: IngressClass
+metadata:
+  name: kong-ink
+
+spec:
+  controller: ingress-controllers.konghq.com/kong
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kong-ing
+
+spec:
+  ingressClassName: kong-ink
+
+  rules:
+  - host: kong.test
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: ngx-svc
+            port:
+              number: 80
+---
+
