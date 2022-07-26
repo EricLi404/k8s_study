@@ -58,10 +58,24 @@ spec:
 
 ---
 
+apiVersion: configuration.konghq.com/v1
+kind: KongPlugin
+metadata:
+  name: response-transformer-header
+config:
+  add:
+    headers:
+    - kong-new-header:kong-kic
+plugin: response-transformer
+
+---
+
 apiVersion: v1
 kind: Service
 metadata:
   name: ngx-svc
+  annotations:
+    konghq.com/plugins: response-transformer-header
 
 spec:
   selector:
