@@ -20,8 +20,6 @@ spec:
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: Gateway
 metadata:
-  annotations:
-    konghq.com/gateway-unmanaged: kong/gateway-kong-proxy
   name: kong-gtw
 spec:
   gatewayClassName: kong-gc
@@ -39,19 +37,17 @@ metadata:
   name: kong-route
 spec:
   parentRefs:
-  - group: gateway.networking.k8s.io
-    kind: Gateway
-    name: kong-gtw
+  - name: kong-gtw
   rules:
-  - backendRefs:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /ngx
+    backendRefs:
     - group: ""
       kind: Service
       name: ngx-svc
       port: 80
       weight: 1
-    matches:
-    - path:
-        type: PathPrefix
-        value: /ngx
 
 ---
