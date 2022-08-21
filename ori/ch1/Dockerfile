@@ -15,7 +15,7 @@ FROM ${IMAGE_BASE}:${IMAGE_TAG}
 ENV PATH=$PATH:/tmp
 ENV DEBUG=OFF
 
-COPY ./default.conf /etc/nginx/conf.d/
+COPY default.conf /etc/nginx/conf.d/
 
 RUN cd /usr/share/nginx/html \
     && echo "hello nginx" > a.txt
